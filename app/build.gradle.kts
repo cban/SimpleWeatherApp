@@ -78,6 +78,7 @@ dependencies {
     implementation(libs.bundles.retrofit)
     implementation(libs.logging.inteceptor)
     implementation(libs.moshi.kotlin)
+    implementation(libs.accompanist.placeholder.material)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

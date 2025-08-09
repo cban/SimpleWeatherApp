@@ -5,4 +5,7 @@
     <string name="error_city_not_found">City not found</string>
     <string name="error_server">Server error</string>
     <string name="no_weather_data_available">No Weather data available</string>
+    <string name="enter_city_name">Enter city name</string>
+    <string name="get_weather">Get Weather</string>
+    <string name="city">City</string>
 </resources>
