@@ -68,14 +68,14 @@ fun WeatherContent(
                     Text(
                         text = stringResource(R.string.app_name),
                         style = MaterialTheme.typography.bodyLarge,
-                        color = Color.White,
+                        color = MaterialTheme.colorScheme.onPrimary,
                         modifier = Modifier.padding(8.dp)
                     )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Black,
-                    navigationIconContentColor = Color.White,
-                    actionIconContentColor = Color.White
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
+                    actionIconContentColor = MaterialTheme.colorScheme.onPrimary
                 )
             )
         }
@@ -89,7 +89,7 @@ fun WeatherContent(
             var cityName by remember { mutableStateOf("") }
             Text(
                 stringResource(R.string.enter_city_name), modifier = Modifier
-                    .padding(8.dp)
+                    .padding(16.dp)
                     .align(Alignment.CenterHorizontally),
                 style = MaterialTheme.typography.bodyLarge
             )
@@ -97,7 +97,9 @@ fun WeatherContent(
                 value = cityName,
                 onValueChange = { cityName = it },
                 label = { Text(stringResource(R.string.city)) },
-                modifier = Modifier.fillMaxWidth().padding( horizontal = 24.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp)
             )
 
             PrimaryButton(
