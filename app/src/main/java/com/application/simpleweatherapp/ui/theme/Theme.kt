@@ -1,6 +1,5 @@
 package com.application.simpleweatherapp.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -27,8 +26,11 @@ private val DarkColorScheme = darkColorScheme(
     onBackground = Color.White,
 
     surface = Color(0xFF121212),
-    onSurface = Color.White
-)
+    onSurface = Color.White,
+    error = Color(0xFFB00020),
+
+
+    )
 
 private val LightColorScheme = lightColorScheme(
     primary = Color(0xFF1565C0),
@@ -44,7 +46,8 @@ private val LightColorScheme = lightColorScheme(
     onBackground = Color(0xFF1C1B1F),
 
     surface = Color(0xFFFFFFFF),
-    onSurface = Color(0xFF1C1B1F)
+    onSurface = Color(0xFF1C1B1F),
+    error = Color(0xFFCF6679),
 )
 
 @Composable

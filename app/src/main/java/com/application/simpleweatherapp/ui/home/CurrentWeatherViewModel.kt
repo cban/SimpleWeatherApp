@@ -24,10 +24,10 @@ class CurrentWeatherViewModel @Inject constructor(
 
     private val _weatherUiState = MutableStateFlow<WeatherUiState>(WeatherUiState.Idle)
     val weatherUiState: StateFlow<WeatherUiState> = _weatherUiState.asStateFlow()
-    fun getWeather(city: String) {
+    fun getWeather(city: String, units: String = "metric") {
         viewModelScope.launch {
             _weatherUiState.value = WeatherUiState.Loading
-            val response = repository.getCurrentWeather(city, units = "metric")
+            val response = repository.getCurrentWeather(city, units)
             when (response) {
                 is Result.Success -> _weatherUiState.value =
                     WeatherUiState.Success(response.data.toUiModel())

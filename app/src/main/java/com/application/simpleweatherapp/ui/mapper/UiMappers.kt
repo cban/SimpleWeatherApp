@@ -25,4 +25,3 @@ fun WeatherError.toUiMessage(resourceResolver: ResourceResolver): String = when 
     is WeatherError.ServerError -> resourceResolver.getString(R.string.error_server)
     is WeatherError.UnknownError -> resourceResolver.getString(R.string.error_unknown)
 }
-

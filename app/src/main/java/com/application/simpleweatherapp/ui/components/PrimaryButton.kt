@@ -19,6 +19,7 @@ fun PrimaryButton(
     onClick: () -> Unit,
     modifier: Modifier,
     height: Dp = 56.dp,
+    enabled: Boolean = true,
     shape: RoundedCornerShape = RoundedCornerShape(8.dp)
 ) {
     Button(
@@ -30,8 +31,9 @@ fun PrimaryButton(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onPrimary
         ),
+        enabled = enabled ,
         shape = shape,
     ) {
-        Text(text)
+        Text(text, style = MaterialTheme.typography.headlineSmall)
     }
 }
