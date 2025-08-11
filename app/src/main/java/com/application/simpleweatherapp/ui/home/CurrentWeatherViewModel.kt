@@ -11,8 +11,10 @@ import com.application.simpleweatherapp.ui.mapper.toUiMessage
 import com.application.simpleweatherapp.ui.mapper.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
@@ -24,6 +26,16 @@ class CurrentWeatherViewModel @Inject constructor(
 
     private val _weatherUiState = MutableStateFlow<WeatherUiState>(WeatherUiState.Idle)
     val weatherUiState: StateFlow<WeatherUiState> = _weatherUiState.asStateFlow()
+
+    private val _snackBarMessage = MutableSharedFlow<String>()
+    val snackBarMessage = _snackBarMessage.asSharedFlow()
+
+    fun showSnackBarError(message: String) {
+        viewModelScope.launch {
+            _snackBarMessage.emit(message)
+        }
+    }
+
     fun getWeather(city: String, units: String = "metric") {
         viewModelScope.launch {
             _weatherUiState.value = WeatherUiState.Loading
@@ -35,6 +47,7 @@ class CurrentWeatherViewModel @Inject constructor(
                 is Result.Error -> {
                     val message = (response.throwable as WeatherError).toUiMessage(resourceResolver)
                     _weatherUiState.value = WeatherUiState.Error(message)
+                    showSnackBarError(message)
                 }
             }
         }

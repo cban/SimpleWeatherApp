@@ -34,11 +34,12 @@ class CurrentWeatherRepositoryImpl @Inject constructor(
         return when (e) {
             is IOException -> WeatherError.NetworkError
             is HttpException -> {
+                val errorMessage = e.response()?.errorBody()?.string()
                 if (e.code() == 404) WeatherError.CityNotFoundError
-                else WeatherError.ServerError(e.code(), e.message())
+                else WeatherError.ServerError(e.code(), errorMessage)
             }
 
-            else -> WeatherError.UnknownError(e.localizedMessage ?: "Unknown error")
+            else -> WeatherError.UnknownError(e.message ?: "Unknown error")
         }
     }
 }

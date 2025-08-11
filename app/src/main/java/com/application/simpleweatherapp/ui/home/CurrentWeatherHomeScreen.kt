@@ -27,7 +27,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -52,9 +51,18 @@ fun CurrentWeatherHomeScreen(
     viewModel: CurrentWeatherViewModel = hiltViewModel(),
 ) {
     val weatherState by viewModel.weatherUiState.collectAsStateWithLifecycle()
+    val snackBarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(viewModel.snackBarMessage) {
+        viewModel.snackBarMessage.collect { message ->
+            snackBarHostState.showSnackbar(message)
+        }
+    }
+
     WeatherContent(
         onClick = { cityName -> viewModel.getWeather(cityName) },
-        weatherState = weatherState
+        weatherState = weatherState,
+        snackBarHostState = snackBarHostState
     )
 }
 
@@ -63,9 +71,9 @@ fun CurrentWeatherHomeScreen(
 fun WeatherContent(
     modifier: Modifier = Modifier,
     onClick: (String) -> Unit = {},
+    snackBarHostState: SnackbarHostState,
     weatherState: WeatherUiState
 ) {
-    val snackBarHostState = remember { SnackbarHostState() }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -105,9 +113,7 @@ fun WeatherContent(
             WeatherInfoContent(
                 weatherState = weatherState,
                 modifier = Modifier.fillMaxWidth(),
-                snackBarHostState = snackBarHostState
             )
-
         }
     }
 }
@@ -116,10 +122,7 @@ fun WeatherContent(
 private fun WeatherInfoContent(
     weatherState: WeatherUiState,
     modifier: Modifier = Modifier,
-    snackBarHostState: SnackbarHostState
 ) {
-    var hasShownSnackbar by rememberSaveable { mutableStateOf(false) }
-
     when (weatherState) {
         is WeatherUiState.Loading -> LoadingIndicator()
         is WeatherUiState.Success -> CurrentWeatherData(
@@ -128,12 +131,7 @@ private fun WeatherInfoContent(
         )
 
         is WeatherUiState.Error -> {
-            if (!hasShownSnackbar) {
-                LaunchedEffect(weatherState.message) {
-                    snackBarHostState.showSnackbar(weatherState.message)
-                    hasShownSnackbar = true
-                }
-            }
+
         }
 
         WeatherUiState.Idle -> {
@@ -321,7 +319,8 @@ fun WeatherContentPreview() {
             onClick = {}, weatherState = WeatherUiState.Success(
                 weatherUiModel
 
-            )
+            ),
+            snackBarHostState = SnackbarHostState()
         )
     }
 }
