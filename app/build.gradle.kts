@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.dev.tools.ksp)
+    alias(libs.plugins.junit5)
 }
 val localProperties = Properties().apply {
     val propsFile = rootProject.file("local.properties")
@@ -55,6 +56,7 @@ android {
         compose = true
         buildConfig = true
     }
+
 }
 
 dependencies {
@@ -82,6 +84,13 @@ dependencies {
     implementation(libs.accompanist.placeholder.material)
 
     testImplementation(libs.junit)
+    testImplementation(libs.junit.jupiter.api)
+    testRuntimeOnly(libs.junit.jupiter.engine)
+    testRuntimeOnly(libs.junit.vintage.engine)
+    testImplementation(libs.mockk)
+    testImplementation(libs.truth)
+    testImplementation(libs.assertj)
+    testImplementation(libs.coroutines.test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))

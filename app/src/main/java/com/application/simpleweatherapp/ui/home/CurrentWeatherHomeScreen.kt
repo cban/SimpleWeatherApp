@@ -27,6 +27,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -117,6 +118,8 @@ private fun WeatherInfoContent(
     modifier: Modifier = Modifier,
     snackBarHostState: SnackbarHostState
 ) {
+    var hasShownSnackbar by rememberSaveable { mutableStateOf(false) }
+
     when (weatherState) {
         is WeatherUiState.Loading -> LoadingIndicator()
         is WeatherUiState.Success -> CurrentWeatherData(
@@ -125,9 +128,11 @@ private fun WeatherInfoContent(
         )
 
         is WeatherUiState.Error -> {
-
-            LaunchedEffect(weatherState.message) {
-                snackBarHostState.showSnackbar(weatherState.message)
+            if (!hasShownSnackbar) {
+                LaunchedEffect(weatherState.message) {
+                    snackBarHostState.showSnackbar(weatherState.message)
+                    hasShownSnackbar = true
+                }
             }
         }
 
