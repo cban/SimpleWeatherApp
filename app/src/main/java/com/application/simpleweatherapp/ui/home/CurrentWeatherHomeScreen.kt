@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -98,7 +100,8 @@ fun WeatherContent(
         Column(
             modifier = Modifier
                 .padding(paddingValues)
-                .fillMaxSize(),
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
@@ -247,7 +250,12 @@ private fun CurrentWeatherData(
                     weather.temperatureCelsius,
                     style = MaterialTheme.typography.headlineLarge,
                 )
-                Text(weather.description, modifier = modifier.padding(bottom = 16.dp))
+                Text(
+                    weather.description,
+                    style = MaterialTheme.typography.labelMedium,
+                    modifier = Modifier
+                        .padding(bottom = 16.dp)
+                )
             }
         }
     }

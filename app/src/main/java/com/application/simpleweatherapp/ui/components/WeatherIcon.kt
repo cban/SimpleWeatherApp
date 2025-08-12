@@ -14,7 +14,7 @@ import com.application.simpleweatherapp.R
 fun WeatherIcon(url: String, modifier: Modifier = Modifier) {
     SubcomposeAsyncImage(
         modifier = modifier
-            .size(128.dp)
+            .size(144.dp)
             .padding(8.dp),
         model = url,
         contentDescription = "Icon",
