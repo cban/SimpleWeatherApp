@@ -119,7 +119,7 @@ fun WeatherContent(
 }
 
 @Composable
-private fun WeatherInfoContent(
+internal fun WeatherInfoContent(
     weatherState: WeatherUiState,
     modifier: Modifier = Modifier,
 ) {
@@ -131,7 +131,6 @@ private fun WeatherInfoContent(
         )
 
         is WeatherUiState.Error -> {
-
         }
 
         WeatherUiState.Idle -> {
@@ -293,8 +292,6 @@ fun CurrentWeatherDataPreview() {
         temperatureCelsius = "10°C",
         description = "Sunny",
         iconUrl = "",
-        minTemperatureCelsius = "14.46°C",
-        maxTemperatureCelsius = "30°C",
     )
     SimpleWeatherAppTheme {
         CurrentWeatherData(
@@ -311,8 +308,6 @@ fun WeatherContentPreview() {
         temperatureCelsius = "10°C",
         description = "Sunny",
         iconUrl = "https://openweathermap.org/img/wn/01d@2x.png",
-        minTemperatureCelsius = "14.46°C",
-        maxTemperatureCelsius = "30°C",
     )
     SimpleWeatherAppTheme {
         WeatherContent(

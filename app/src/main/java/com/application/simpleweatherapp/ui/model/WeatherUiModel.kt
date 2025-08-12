@@ -5,6 +5,4 @@ data class WeatherUiModel(
     val temperatureCelsius: String,
     val description: String,
     val iconUrl: String,
-    val minTemperatureCelsius: String,
-    val maxTemperatureCelsius: String,
 )

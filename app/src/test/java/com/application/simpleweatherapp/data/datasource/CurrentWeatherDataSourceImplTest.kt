@@ -13,15 +13,18 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.io.IOException
 
-
 class CurrentWeatherDataSourceImplTest {
 
     private var apiService: WeatherApi = mockk<WeatherApi>()
     private lateinit var subjectUnderTest: CurrentWeatherDataSourceImpl
+    private lateinit var cityName: String
+    private lateinit var units: String
 
     @BeforeEach
     fun setUp() {
         subjectUnderTest = CurrentWeatherDataSourceImpl(apiService)
+        cityName = "joburg"
+        units = "metric"
     }
 
     @Test
@@ -30,27 +33,27 @@ class CurrentWeatherDataSourceImplTest {
 
         coEvery {
             apiService.getCurrentWeatherByCityName(
-                "city",
-                "units"
+                cityName,
+                units
             )
         } returns mockedWeatherData
-        val result = subjectUnderTest.getCurrentWeather("city", "units")
+        val result = subjectUnderTest.getCurrentWeather(cityName, units)
 
         Assertions.assertTrue(result is Result.Success<CurrentWeatherResponse?>)
-        Assertions.assertEquals(mockedWeatherData, (result as Result.Success).data)
-        coVerify(exactly = 1) { apiService.getCurrentWeatherByCityName("hello", "units") }
+        assertEquals(mockedWeatherData, (result as Result.Success).data)
+        coVerify(exactly = 1) { apiService.getCurrentWeatherByCityName(cityName, units) }
     }
 
     @Test
     fun `verify getCurrentWeather returns Error when api call throws exception`() = runTest {
         val exception = Exception("Network error")
 
-        coEvery { apiService.getCurrentWeatherByCityName("city", "units") } throws exception
-        val result = subjectUnderTest.getCurrentWeather("city", "units")
+        coEvery { apiService.getCurrentWeatherByCityName(cityName, units) } throws exception
+        val result = subjectUnderTest.getCurrentWeather(cityName, units)
 
         Assertions.assertTrue(result is Result.Error)
         assertEquals(exception, (result as Result.Error).throwable)
-        coVerify(exactly = 1) { apiService.getCurrentWeatherByCityName("city", "units") }
+        coVerify(exactly = 1) { apiService.getCurrentWeatherByCityName(cityName, units) }
 
     }
 
@@ -59,7 +62,7 @@ class CurrentWeatherDataSourceImplTest {
         val ioException = IOException("Network issue")
         coEvery { apiService.getCurrentWeatherByCityName(any(), any()) } throws ioException
 
-        val result = subjectUnderTest.getCurrentWeather("city", "units")
+        val result = subjectUnderTest.getCurrentWeather(cityName, units)
         Assertions.assertTrue(result is Result.Error)
 
         assertEquals(ioException, (result as Result.Error).throwable)

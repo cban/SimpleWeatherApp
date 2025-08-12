@@ -6,7 +6,6 @@ import com.application.simpleweatherapp.common.WeatherError
 import com.application.simpleweatherapp.data.model.CurrentWeatherResponse
 import com.application.simpleweatherapp.ui.model.WeatherUiModel
 
-
 fun CurrentWeatherResponse?.toUiModel(): WeatherUiModel {
     val iconCode = this?.weather?.firstOrNull()?.icon ?: ""
     return WeatherUiModel(
@@ -14,8 +13,6 @@ fun CurrentWeatherResponse?.toUiModel(): WeatherUiModel {
         temperatureCelsius = this?.main?.temp?.let { "%.1f °C".format(it) } ?: "--",
         description = this?.weather?.firstOrNull()?.description ?: "N/A",
         iconUrl = "https://openweathermap.org/img/wn/${iconCode}@2x.png",
-        minTemperatureCelsius = this?.main?.tempMin?.let { "%.1f °C".format(it) } ?: "--",
-        maxTemperatureCelsius = this?.main?.tempMax?.let { "%.1f °C".format(it) } ?: "--",
     )
 }
 

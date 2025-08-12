@@ -28,7 +28,7 @@ class CurrentWeatherRepositoryImplTest {
     }
 
     @Test
-    fun `getCurrentWeather returns Success when data source returns Success with  data`() =
+    fun `getCurrentWeather returns Success when data source returns Success with data`() =
         runTest {
             val mockResponse = mockk<CurrentWeatherResponse>()
             coEvery { mockDataSource.getCurrentWeather("city", "units") } returns Result.Success(
