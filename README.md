@@ -53,4 +53,7 @@ The UI views were built  using Jetpack Compose, the UI observes the ViewModel’
 - Build and run
 ./gradlew installDebug
 Or simply click the "Run" button in Android Studio to build and install on your connected device/emulator.
+## App Video Link 
+[App video Link](https://github.com/cban/SimpleWeatherApp/blob/main/Screen_recording_20250812_135005.mp4)
+
 
